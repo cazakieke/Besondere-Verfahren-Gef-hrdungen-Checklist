@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Besondere Verfahren & Gefährdungen - Checklisten App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #d32f2f;
+            --secondary: #f57c00;
+            --success: #388e3c;
+            --danger: #c62828;
+            --warning: #fbc02d;
+            --light: #f5f5f5;
+            --dark: #212529;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header-info {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 10px 15px;
+            border: none;
+            background: var(--light);
+            color: var(--dark);
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            white-space: nowrap;
+            font-size: 13px;
+        }
+
+        .tab-btn:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        input[type="email"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="time"]:focus,
+        input[type="email"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 5px rgba(211, 47, 47, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .item-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .item-description {
+            background: #ffebee;
+            padding: 12px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .evidence-section {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .evidence-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 10px 15px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease;
+        }
+
+        .file-input-label:hover {
+            background: var(--primary);
+        }
+
+        .file-preview {
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .file-item {
+            position: relative;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .file-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .file-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 3px;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .file-remove:hover {
+            background: #b71c1c;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--danger);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(211, 47, 47, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2e7d32;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ad1457;
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-open {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-compliant {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-non-compliant {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .status-not-applicable {
+            background: #e2e3e5;
+            color: #41464b;
+        }
+
+        .summary {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffffff 100%);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .summary-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .summary-label {
+            font-size: 12px;
+            color: var(--dark);
+            margin-top: 5px;
+        }
+
+        .separator {
+            height: 1px;
+            background: var(--border);
+            margin: 20px 0;
+        }
+
+        .export-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--success);
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--success);
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--danger);
+        }
+
+        .warning-message {
+            background: #fff3cd;
+            color: #856404;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--warning);
+        }
+
+        .location-info {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #1976d2;
+        }
+
+        .conditional-field {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .conditional-field.show {
+            display: block;
+        }
+
+        .module-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 20px;
+            }
+            .tabs {
+                flex-direction: column;
+            }
+            .tab-btn {
+                width: 100%;
+            }
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            header, .tabs, .export-section, .buttons {
+                display: none;
+            }
+            body {
+                background: white;
+            }
+            .form-section {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid var(--border);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>⚠️ Besondere Verfahren & Gefährdungen - Checklisten App</h1>
+            <div class="header-info">
+                Digitale Sicherheitsprüfung für E28-E45 Projekte
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Übersicht / Summary -->
+        <div class="summary">
+            <h2>📊 Projektübersicht</h2>
+            <div class="form-row">
+                <div>
+                    <label>Projektname:</label>
+                    <input type="text" id="projectName" placeholder="z.B. Gebäudesanierung mit Heißarbeiten">
+                </div>
+                <div>
+                    <label>Bereich:</label>
+                    <input type="text" id="projectArea" placeholder="z.B. Gebäude A, Etage 3">
+                </div>
+            </div>
+            <div class="summary-grid" id="summaryGrid">
+                <div class="summary-card">
+                    <div class="summary-number" id="totalItems">0</div>
+                    <div class="summary-label">Gesamt Elemente</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-number" id="compliantItems">0</div>
+                    <div class="summary-label">Konform</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-number" id="nonCompliantItems">0</div>
+                    <div class="summary-label">Nicht Konform</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-number" id="openItems">0</div>
+                    <div class="summary-label">Offen</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs für verschiedene Module -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('e28')"><span class="module-badge">E28</span>Heißarbeiten</button>
+            <button class="tab-btn" onclick="switchTab('e29')"><span class="module-badge">E29</span>Bestandsbetrieb</button>
+            <button class="tab-btn" onclick="switchTab('e36')"><span class="module-badge">E36</span>Taucharbeiten</button>
+            <button class="tab-btn" onclick="switchTab('e37')"><span class="module-badge">E37</span>Druckluft</button>
+            <button class="tab-btn" onclick="switchTab('e38')"><span class="module-badge">E38</span>Sprengarbeiten</button>
+            <button class="tab-btn" onclick="switchTab('e39')"><span class="module-badge">E39</span>Wasserarbeiten</button>
+            <button class="tab-btn" onclick="switchTab('e42')"><span class="module-badge">E42</span>Biostoff/Abwasser</button>
+            <button class="tab-btn" onclick="switchTab('e43')"><span class="module-badge">E43</span>Strahlung</button>
+            <button class="tab-btn" onclick="switchTab('e44')"><span class="module-badge">E44</span>Sonderarbeit 1</button>
+            <button class="tab-btn" onclick="switchTab('e45')"><span class="module-badge">E45</span>Sonderarbeit 2</button>
+            <button class="tab-btn" onclick="switchTab('export')">📤 Export</button>
+        </div>
+
+        <!-- E28: Heißarbeiten / Schweißen -->
+        <div id="e28" class="tab-content active">
+            <div class="form-section">
+                <div class="item-title">E28 · Heißarbeiten / Schweißen</div>
+                <div class="item-description">
+                    <strong>Modul-Info:</strong> GefStoffV §§6–7; ASR A2.2; OStrV; BetrSichV
+                </div>
+
+                <!-- Item 01 -->
+                <div class="separator"></div>
+                <div class="item-title">01 Heißarbeiten mit Brandrisiken abstimmen [Planung]</div>
+                <div class="item-description">
+                    Brennbare Stoffe, verdeckte Bereiche, Abschirmung, Löschmittel und Nachkontrolle festlegen.
+                </div>
+
+                <div class="form-group">
+                    <label><strong>Anwendbarkeit:</strong></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e28_01_applicable_yes" name="e28_01_applicable" value="yes" onchange="updateE28_01()">
+                            <label for="e28_01_applicable_yes">Ja</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e28_01_applicable_no" name="e28_01_applicable" value="no" onchange="updateE28_01()">
+                            <label for="e28_01_applicable_no">Nein</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e28_01_applicable_unclear" name="e28_01_applicable" value="unclear" onchange="updateE28_01()">
+                            <label for="e28_01_applicable_unclear">Zu klären</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="e28_01_content" class="conditional-field">
+                    <div class="form-group">
+                        <label><strong>Status:</strong></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e28_01_status_open" name="e28_01_status" value="open" onchange="updateE28_01()">
+                                <label for="e28_01_status_open">Offen</label>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e28_01_status_compliant" name="e28_01_status" value="compliant" onchange="updateE28_01()">
+                                <label for="e28_01_status_compliant">Erfüllt</label>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e28_01_status_non_compliant" name="e28_01_status" value="non_compliant" onchange="updateE28_01()">
+                                <label for="e28_01_status_non_compliant">Nicht erfüllt</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="e28_01_action_plan" class="conditional-field">
+                        <div class="form-group">
+                            <label><strong>Maßnahmenplan zur Behebung:</strong></label>
+                            <textarea id="e28_01_action" placeholder="Beschreiben Sie die erforderlichen Maßnahmen..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><strong>Verantwortlich:</strong></label>
+                            <input type="text" id="e28_01_responsible" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Frist:</strong></label>
+                            <input type="date" id="e28_01_deadline">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>Geprüft am:</strong></label>
+                        <input type="date" id="e28_01_checked_date">
+                    </div>
+
+                    <div class="evidence-section">
+                        <div class="evidence-title">📸 Fotographische Evidenz</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Datum:</label>
+                                <input type="date" id="e28_01_photo_date">
+                            </div>
+                            <div class="form-group">
+                                <label>Uhrzeit:</label>
+                                <input type="time" id="e28_01_photo_time">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Geografische Position:</label>
+                            <button type="button" class="btn-primary btn-small" onclick="getLocation('e28_01')">
+                                📍 Aktuelle Position
+                            </button>
+                            <div id="e28_01_location" class="location-info" style="display:none; margin-top:10px;">
+                                Breite: <span id="e28_01_lat">-</span><br>
+                                Länge: <span id="e28_01_lon">-</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Bilder hochladen:</label>
+                            <div class="file-input-wrapper">
+                                <label for="e28_01_photos" class="file-input-label">
+                                    📷 Bilder auswählen (mehrfach möglich)
+                                </label>
+                                <input type="file" id="e28_01_photos" multiple accept="image/*" onchange="handleFileSelect(event, 'e28_01')">
+                            </div>
+                            <div class="file-preview" id="e28_01_preview"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>Notizen / Bemerkungen:</strong></label>
+                        <textarea id="e28_01_notes" placeholder="Zusätzliche Informationen..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Item 02 -->
+                <div class="separator"></div>
+                <div class="item-title">02 Heißarbeitsbereich freigeben [Ausführung]</div>
+                <div class="item-description">
+                    Brandlasten entfernen oder schützen; Abschirmung, Löschmittel, Brandwache und Nachkontrolle prüfen.
+                </div>
+
+                <div class="form-group">
+                    <label><strong>Anwendbarkeit:</strong></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e28_02_applicable_yes" name="e28_02_applicable" value="yes" onchange="updateE28_02()">
+                            <label for="e28_02_applicable_yes">Ja</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e28_02_applicable_no" name="e28_02_applicable" value="no" onchange="updateE28_02()">
+                            <label for="e28_02_applicable_no">Nein</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e28_02_applicable_unclear" name="e28_02_applicable" value="unclear" onchange="updateE28_02()">
+                            <label for="e28_02_applicable_unclear">Zu klären</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="e28_02_content" class="conditional-field">
+                    <div class="form-group">
+                        <label><strong>Status:</strong></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e28_02_status_open" name="e28_02_status" value="open" onchange="updateE28_02()">
+                                <label for="e28_02_status_open">Offen</label>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e28_02_status_compliant" name="e28_02_status" value="compliant" onchange="updateE28_02()">
+                                <label for="e28_02_status_compliant">Erfüllt</label>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e28_02_status_non_compliant" name="e28_02_status" value="non_compliant" onchange="updateE28_02()">
+                                <label for="e28_02_status_non_compliant">Nicht erfüllt</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="e28_02_action_plan" class="conditional-field">
+                        <div class="form-group">
+                            <label><strong>Maßnahmenplan zur Behebung:</strong></label>
+                            <textarea id="e28_02_action" placeholder="Beschreiben Sie die erforderlichen Maßnahmen..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><strong>Verantwortlich:</strong></label>
+                            <input type="text" id="e28_02_responsible" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Frist:</strong></label>
+                            <input type="date" id="e28_02_deadline">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>Geprüft am:</strong></label>
+                        <input type="date" id="e28_02_checked_date">
+                    </div>
+
+                    <div class="evidence-section">
+                        <div class="evidence-title">📸 Fotographische Evidenz</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Datum:</label>
+                                <input type="date" id="e28_02_photo_date">
+                            </div>
+                            <div class="form-group">
+                                <label>Uhrzeit:</label>
+                                <input type="time" id="e28_02_photo_time">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Geografische Position:</label>
+                            <button type="button" class="btn-primary btn-small" onclick="getLocation('e28_02')">
+                                📍 Aktuelle Position
+                            </button>
+                            <div id="e28_02_location" class="location-info" style="display:none; margin-top:10px;">
+                                Breite: <span id="e28_02_lat">-</span><br>
+                                Länge: <span id="e28_02_lon">-</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Bilder hochladen:</label>
+                            <div class="file-input-wrapper">
+                                <label for="e28_02_photos" class="file-input-label">
+                                    📷 Bilder auswählen (mehrfach möglich)
+                                </label>
+                                <input type="file" id="e28_02_photos" multiple accept="image/*" onchange="handleFileSelect(event, 'e28_02')">
+                            </div>
+                            <div class="file-preview" id="e28_02_preview"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>Notizen / Bemerkungen:</strong></label>
+                        <textarea id="e28_02_notes" placeholder="Zusätzliche Informationen..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Item 03 -->
+                <div class="separator"></div>
+                <div class="item-title">03 Gemeinsame Einrichtungen und Übergabe prüfen [Planung]</div>
+                <div class="item-description">
+                    Für Abschirmung, Löschmittel, Lüftung und Brandwache Standort, Nutzer, Zeitfenster, Bereitstellung/Pflege und Prüfverantwortung mit den Folgegewerken abstimmen.
+                </div>
+
+                <div class="form-group">
+                    <label><strong>Anwendbarkeit:</strong></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e28_03_applicable_yes" name="e28_03_applicable" value="yes" onchange="updateE28_03()">
+                            <label for="e28_03_applicable_yes">Ja</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e28_03_applicable_no" name="e28_03_applicable" value="no" onchange="updateE28_03()">
+                            <label for="e28_03_applicable_no">Nein</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e28_03_applicable_unclear" name="e28_03_applicable" value="unclear" onchange="updateE28_03()">
+                            <label for="e28_03_applicable_unclear">Zu klären</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="e28_03_content" class="conditional-field">
+                    <div class="form-group">
+                        <label><strong>Status:</strong></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e28_03_status_open" name="e28_03_status" value="open" onchange="updateE28_03()">
+                                <label for="e28_03_status_open">Offen</label>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e28_03_status_compliant" name="e28_03_status" value="compliant" onchange="updateE28_03()">
+                                <label for="e28_03_status_compliant">Erfüllt</label>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e28_03_status_non_compliant" name="e28_03_status" value="non_compliant" onchange="updateE28_03()">
+                                <label for="e28_03_status_non_compliant">Nicht erfüllt</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="e28_03_action_plan" class="conditional-field">
+                        <div class="form-group">
+                            <label><strong>Maßnahmenplan zur Behebung:</strong></label>
+                            <textarea id="e28_03_action" placeholder="Beschreiben Sie die erforderlichen Maßnahmen..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><strong>Verantwortlich:</strong></label>
+                            <input type="text" id="e28_03_responsible" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Frist:</strong></label>
+                            <input type="date" id="e28_03_deadline">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>Geprüft am:</strong></label>
+                        <input type="date" id="e28_03_checked_date">
+                    </div>
+
+                    <div class="evidence-section">
+                        <div class="evidence-title">📸 Fotographische Evidenz</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Datum:</label>
+                                <input type="date" id="e28_03_photo_date">
+                            </div>
+                            <div class="form-group">
+                                <label>Uhrzeit:</label>
+                                <input type="time" id="e28_03_photo_time">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Geografische Position:</label>
+                            <button type="button" class="btn-primary btn-small" onclick="getLocation('e28_03')">
+                                📍 Aktuelle Position
+                            </button>
+                            <div id="e28_03_location" class="location-info" style="display:none; margin-top:10px;">
+                                Breite: <span id="e28_03_lat">-</span><br>
+                                Länge: <span id="e28_03_lon">-</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Bilder hochladen:</label>
+                            <div class="file-input-wrapper">
+                                <label for="e28_03_photos" class="file-input-label">
+                                    📷 Bilder auswählen (mehrfach möglich)
+                                </label>
+                                <input type="file" id="e28_03_photos" multiple accept="image/*" onchange="handleFileSelect(event, 'e28_03')">
+                            </div>
+                            <div class="file-preview" id="e28_03_preview"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>Notizen / Bemerkungen:</strong></label>
+                        <textarea id="e28_03_notes" placeholder="Zusätzliche Informationen..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Item 04 -->
+                <div class="separator"></div>
+                <div class="item-title">04 Spätere Arbeiten und Zugänge prüfen (RAB 32) [Planung]</div>
+                <div class="item-description">
+                    Sicheren Zugang und relevante Bestandsinformationen für Wartung und Instandsetzung dokumentieren.
+                </div>
+
+                <div class="form-group">
+                    <label><strong>Anwendbarkeit:</strong></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e28_04_applicable_yes" name="e28_04_applicable" value="yes" onchange="updateE28_04()">
+                            <label for="e28_04_applicable_yes">Ja</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e28_04_applicable_no" name="e28_04_applicable" value="no" onchange="updateE28_04()">
+                            <label for="e28_04_applicable_no">Nein</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e28_04_applicable_unclear" name="e28_04_applicable" value="unclear" onchange="updateE28_04()">
+                            <label for="e28_04_applicable_unclear">Zu klären</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="e28_04_content" class="conditional-field">
+                    <div class="form-group">
+                        <label><strong>Status:</strong></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e28_04_status_open" name="e28_04_status" value="open" onchange="updateE28_04()">
+                                <label for="e28_04_status_open">Offen</label>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e28_04_status_compliant" name="e28_04_status" value="compliant" onchange="updateE28_04()">
+                                <label for="e28_04_status_compliant">Erfüllt</label>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e28_04_status_non_compliant" name="e28_04_status" value="non_compliant" onchange="updateE28_04()">
+                                <label for="e28_04_status_non_compliant">Nicht erfüllt</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="e28_04_action_plan" class="conditional-field">
+                        <div class="form-group">
+                            <label><strong>Maßnahmenplan zur Behebung:</strong></label>
+                            <textarea id="e28_04_action" placeholder="Beschreiben Sie die erforderlichen Maßnahmen..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><strong>Verantwortlich:</strong></label>
+                            <input type="text" id="e28_04_responsible" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Frist:</strong></label>
+                            <input type="date" id="e28_04_deadline">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>Geprüft am:</strong></label>
+                        <input type="date" id="e28_04_checked_date">
+                    </div>
+
+                    <div class="evidence-section">
+                        <div class="evidence-title">📸 Fotographische Evidenz</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Datum:</label>
+                                <input type="date" id="e28_04_photo_date">
+                            </div>
+                            <div class="form-group">
+                                <label>Uhrzeit:</label>
+                                <input type="time" id="e28_04_photo_time">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Geografische Position:</label>
+                            <button type="button" class="btn-primary btn-small" onclick="getLocation('e28_04')">
+                                📍 Aktuelle Position
+                            </button>
+                            <div id="e28_04_location" class="location-info" style="display:none; margin-top:10px;">
+                                Breite: <span id="e28_04_lat">-</span><br>
+                                Länge: <span id="e28_04_lon">-</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Bilder hochladen:</label>
+                            <div class="file-input-wrapper">
+                                <label for="e28_04_photos" class="file-input-label">
+                                    📷 Bilder auswählen (mehrfach möglich)
+                                </label>
+                                <input type="file" id="e28_04_photos" multiple accept="image/*" onchange="handleFileSelect(event, 'e28_04')">
+                            </div>
+                            <div class="file-preview" id="e28_04_preview"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>Notizen / Bemerkungen:</strong></label>
+                        <textarea id="e28_04_notes" placeholder="Zusätzliche Informationen..."></textarea>
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><strong>Prüfung / Freigabe:</strong></label>
+                        <input type="text" id="e28_signature" placeholder="Name und Titel">
+                    </div>
+                    <div class="form-group">
+                        <label><strong>Datum / Unterschrift:</strong></label>
+                        <input type="date" id="e28_signature_date">
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button class="btn-success" onclick="saveModule('e28')">💾 E28 Speichern</button>
+                    <button class="btn-secondary" onclick="resetModule('e28')">🔄 Zurücksetzen</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- E29: Arbeiten im Bestand / laufender Betrieb -->
+        <div id="e29" class="tab-content">
+            <div class="form-section">
+                <div class="item-title">E29 · Arbeiten im Bestand / laufender Betrieb</div>
+                <div class="item-description">
+                    <strong>Modul-Info:</strong> ArbSchG §8; BaustellV §2 Abs.3; BetrSichV; standortspezifische Betreiberregeln
+                </div>
+
+                <!-- Item 01 -->
+                <div class="separator"></div>
+                <div class="item-title">01 Bauarbeiten und laufenden Betrieb trennen [Planung]</div>
+                <div class="item-description">
+                    Betriebsprozesse, Energiequellen, Fremdverkehr und Betreiberfreigaben pro Bauphase abstimmen.
+                </div>
+
+                <div class="form-group">
+                    <label><strong>Anwendbarkeit:</strong></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e29_01_applicable_yes" name="e29_01_applicable" value="yes" onchange="updateModule('e29_01')">
+                            <label for="e29_01_applicable_yes">Ja</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e29_01_applicable_no" name="e29_01_applicable" value="no" onchange="updateModule('e29_01')">
+                            <label for="e29_01_applicable_no">Nein</label>
+                        </div>
+                        <div class="checkbox-wrapper">
+                            <input type="radio" id="e29_01_applicable_unclear" name="e29_01_applicable" value="unclear" onchange="updateModule('e29_01')">
+                            <label for="e29_01_applicable_unclear">Zu klären</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="e29_01_content" class="conditional-field">
+                    <div class="form-group">
+                        <label><strong>Status:</strong></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e29_01_status_open" name="e29_01_status" value="open" onchange="updateModule('e29_01')">
+                                <label for="e29_01_status_open">Offen</label>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e29_01_status_compliant" name="e29_01_status" value="compliant" onchange="updateModule('e29_01')">
+                                <label for="e29_01_status_compliant">Erfüllt</label>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="radio" id="e29_01_status_non_compliant" name="e29_01_status" value="non_compliant" onchange="updateModule('e29_01')">
+                                <label for="e29_01_status_non_compliant">Nicht erfüllt</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="e29_01_action_plan" class="conditional-field">
+                        <div class="form-group">
+                            <label><strong>Maßnahmenplan zur Behebung:</strong></label>
+                            <textarea id="e29_01_action" placeholder="Beschreiben Sie die erforderlichen Maßnahmen..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><strong>Verantwortlich:</strong></label>
+                            <input type="text" id="e29_01_responsible" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Frist:</strong></label>
+                            <input type="date" id="e29_01_deadline">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>Geprüft am:</strong></label>
+                        <input type="date" id="e29_01_checked_date">
+                    </div>
+
+                    <div class="evidence-section">
+                        <div class="evidence-title">📸 Fotographische Evidenz</div>
+                        <div 
